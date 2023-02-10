@@ -17,7 +17,7 @@ export const add = async (req: Request, res: Response ) => {
     }
 }
 export const update = async (req: Request, res: Response ) => {
-    let id = await req.body.id;
+    let id: string = req.params.id;
 
     let todo = await Todo.findByPk(id);
 
@@ -44,5 +44,11 @@ export const update = async (req: Request, res: Response ) => {
     res.json({ items: todo });
 }
 export const remove = async (req: Request, res: Response ) => {
-    res.send('remove')
+    let id:  string = req.params.id;
+
+    let todo = await Todo.findByPk(id);
+    if(todo){
+        todo.destroy;
+    }
+    res.json({})
 }
