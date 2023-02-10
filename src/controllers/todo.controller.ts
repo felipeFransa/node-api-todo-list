@@ -17,7 +17,31 @@ export const add = async (req: Request, res: Response ) => {
     }
 }
 export const update = async (req: Request, res: Response ) => {
-    res.send('update')
+    let id = await req.body.id;
+
+    let todo = await Todo.findByPk(id);
+
+    if(todo){
+        if(req.body.title){
+            todo = req.body.title;
+        }
+    }
+
+    if(todo){
+        if(req.body.done){
+            switch(req.body.done.toLowerCase()) {
+                case 'true':
+                case '1':
+                    todo.done = true;
+                    break;
+                case 'false':
+                case '0':
+                    todo.done = false;
+            }
+        }
+    }
+    await todo?.save()
+    res.json({ items: todo });
 }
 export const remove = async (req: Request, res: Response ) => {
     res.send('remove')
